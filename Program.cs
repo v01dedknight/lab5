@@ -8,6 +8,8 @@ namespace Lab5_StringsAndCollections {
     static void Main(string[] args) {
       string path;
       string[] files;
+      string content;
+      string pattern;
 
       // Словарь ошибочных слов
       var dictionary = new Dictionary<string, string>{
@@ -28,9 +30,23 @@ namespace Lab5_StringsAndCollections {
         return;
       }
 
-      // Возвращается список всех текстовых файлов
+      // Возвращает список всех текстовых файлов
       files = Directory.GetFiles(path, "*.txt");
       Console.WriteLine($"Найдено файлов для обработки: {files.Length}");
+
+      // Сделал через foreach вместо for, т. к. в этом случае пришлось бы подготавливать ключи
+      foreach (string filePath in files) {
+        content = File.ReadAllText(filePath);
+
+        // Исправление слов по словарю
+        foreach (var entry in dictionary) {
+          // Поиск слова целиком, игнорируя регистр
+          pattern = $@"\b{entry.Key}\b";
+          content = Regex.Replace(content, pattern, entry.Value, RegexOptions.IgnoreCase);
+        }
+
+        Console.WriteLine($"Обработка слов в {Path.GetFileName(filePath)} завершена.");
+      }
     }
   }
 }
