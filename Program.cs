@@ -22,8 +22,8 @@ namespace Lab5_StringsAndCollections {
                 { "ошибко", "ошибка" }
             };
 
-      Console.WriteLine("Словарь загружен. Программа готова к работе.");
-      Console.Write("Введите путь к директории: ");
+      Console.WriteLine("Словарь загружен. Программа готова к работе.\n"+
+        "Введите путь к директории: ");
       targetDirectoryPath = Console.ReadLine();
 
       // Проверка существования директории и валидация ввода
@@ -56,15 +56,21 @@ namespace Lab5_StringsAndCollections {
         // Паттерн ищет (0 + две цифры кода) + пробел? + 3 цифры + дефис + 2 цифры + дефис + 2 цифры
         phonePattern = @"\(0(\d{2})\)\s*(\d{3})-(\d{2})-(\d{2})";
 
-        // Формируем строку замены, где $1 — это код оператора без нуля
+        // Строка замены, где $1 — это код оператора без нуля
         phoneReplacement = "+380 $1 $2 $3 $4";
 
-        // Регулярное выражение к тексту
+        // Замена номеров в тексте
         currentFileContent = Regex.Replace(currentFileContent, phonePattern, phoneReplacement);
 
-        // DEBUG
-        Console.WriteLine($"Обработка завершена для: {Path.GetFileName(currentFilePath)}");
+        // Сохранение изменений
+        File.WriteAllText(currentFilePath, currentFileContent);
+
+        Console.WriteLine($"Обработка и сохранение завершены для: {Path.GetFileName(currentFilePath)}");
       }
+
+      Console.WriteLine("\nЛабораторная работа успешно выполнена.\n"+
+        "Нажмите любую клавишу, чтобы выйти...");
+      Console.ReadKey();
     }
   }
 }
