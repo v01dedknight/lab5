@@ -10,6 +10,8 @@ namespace Lab5_StringsAndCollections {
       string[] foundTextFiles;
       string currentFileContent;
       string regexWordPattern;
+      string phonePattern;
+      string phoneReplacement;
 
       var dictionaryOfIncorrectWords = new Dictionary<string, string>
       {
@@ -34,14 +36,14 @@ namespace Lab5_StringsAndCollections {
       foundTextFiles = Directory.GetFiles(targetDirectoryPath, "*.txt");
       Console.WriteLine($"Найдено файлов для обработки: {foundTextFiles.Length}");
 
-      // Итерация по каждому найденному файлу
+      // Перебор каждого найденного текстового файла
       foreach (string currentFilePath in foundTextFiles) {
+        // Чтение содержимого файла
         currentFileContent = File.ReadAllText(currentFilePath);
 
-        // Перебор каждой пары в словаре
+        // Исправление опечаток по словарю
         foreach (var dictionaryEntry in dictionaryOfIncorrectWords) {
-
-          // Паттерн для поиска целого слова (граница \b) без учета регистра
+          // Используем \b для точного поиска слова и Regex.Escape для безопасности
           regexWordPattern = $@"\b{Regex.Escape(dictionaryEntry.Key)}\b";
           currentFileContent = Regex.Replace(
               currentFileContent,
@@ -51,7 +53,17 @@ namespace Lab5_StringsAndCollections {
           );
         }
 
-        Console.WriteLine($"Обработка слов в файле {Path.GetFileName(currentFilePath)} завершена.");
+        // Паттерн ищет (0 + две цифры кода) + пробел? + 3 цифры + дефис + 2 цифры + дефис + 2 цифры
+        phonePattern = @"\(0(\d{2})\)\s*(\d{3})-(\d{2})-(\d{2})";
+
+        // Формируем строку замены, где $1 — это код оператора без нуля
+        phoneReplacement = "+380 $1 $2 $3 $4";
+
+        // Регулярное выражение к тексту
+        currentFileContent = Regex.Replace(currentFileContent, phonePattern, phoneReplacement);
+
+        // DEBUG
+        Console.WriteLine($"Обработка завершена для: {Path.GetFileName(currentFilePath)}");
       }
     }
   }
