@@ -22,7 +22,7 @@ namespace Lab5_StringsAndCollections {
                 { "ошибко", "ошибка" }
             };
 
-      Console.WriteLine("Словарь загружен. Программа готова к работе.\n"+
+      Console.WriteLine("Словарь загружен. Программа готова к работе.\n" +
         "Введите путь к директории: ");
       targetDirectoryPath = Console.ReadLine();
 
@@ -43,7 +43,7 @@ namespace Lab5_StringsAndCollections {
 
         // Исправление опечаток по словарю
         foreach (var dictionaryEntry in dictionaryOfIncorrectWords) {
-          // Используем \b для точного поиска слова и Regex.Escape для безопасности
+          // Тут я использовал \b для точного поиска слова. Ещё добавил Regex.Escape, потому что так безопаснее
           regexWordPattern = $@"\b{Regex.Escape(dictionaryEntry.Key)}\b";
           currentFileContent = Regex.Replace(
               currentFileContent,
@@ -56,7 +56,7 @@ namespace Lab5_StringsAndCollections {
         // Паттерн ищет (0 + две цифры кода) + пробел? + 3 цифры + дефис + 2 цифры + дефис + 2 цифры
         phonePattern = @"\(0(\d{2})\)\s*(\d{3})-(\d{2})-(\d{2})";
 
-        // Строка замены, где $1 — это код оператора без нуля
+        // Строка замены, где $1 - это код оператора без нуля
         phoneReplacement = "+380 $1 $2 $3 $4";
 
         // Замена номеров в тексте
@@ -68,8 +68,7 @@ namespace Lab5_StringsAndCollections {
         Console.WriteLine($"Обработка и сохранение завершены для: {Path.GetFileName(currentFilePath)}");
       }
 
-      Console.WriteLine("\nЛабораторная работа успешно выполнена.\n"+
-        "Нажмите любую клавишу, чтобы выйти...");
+      Console.WriteLine("Нажмите любую клавишу, чтобы выйти...");
       Console.ReadKey();
     }
   }
