@@ -1,12 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Text.RegularExpressions;
 
-namespace lab5 {
-  internal class Program {
+namespace Lab5_StringsAndCollections {
+  class Program {
     static void Main(string[] args) {
+      // Словарь ошибочных слов
+      var dictionary = new Dictionary<string, string>
+      {
+                { "првиет", "привет" },
+                { "пирвет", "привет" },
+                { "здраствуйте", "здравствуйте" },
+                { "програмирование", "программирование" },
+                { "ошибко", "ошибка" }
+            };
+
+      Console.WriteLine("Словарь загружен. Программа готова к работе.");
     }
   }
 }
